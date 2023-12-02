@@ -1,0 +1,33 @@
+{% paginate search.results by 5 %}
+
+    {% if search.performed %}
+        <h1>Here is your result</h1>
+
+        {% for result in search.results %}
+            <div>
+                {% if result.object_type == "page" %}
+                    <p>It's a page</p>
+                    <a href="{{ result.url }}">
+                        <h4>{{ result.title }}</h4>
+                    </a>
+                    {% elsif result.object_type == "article" %}
+                        <p>It's an article</p>
+                        <a href="{{ result.url }}">
+                            <h4>{{ result.title }}</h4>
+                            <p>{{ result.author }}</p>
+                        </a>
+                    {% else %}
+                        <p>It's a product</p>
+                        <a href="{{ result.url }}">
+                            <h4>{{ result.title }}</h4>
+                            <p>{{ result.author }}</p>
+                            <img src="{{ result.featured_image |  image_url: width: 200 }}" alt="">
+                        </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1>Try searching for something</h1>
+    {% endif %}
+    {{ paginate | default_pagination }}
+{% endpaginate %}
